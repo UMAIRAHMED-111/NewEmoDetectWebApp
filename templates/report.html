@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Report</title>
+    <style>
+        body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-align: center;
+    margin: 0;
+    background-image: url('https://img.freepik.com/free-vector/network-connections-plexus-banner-design-with-connecting-lines-dots_1048-19529.jpg?w=996&t=st=1707202722~exp=1707203322~hmac=d75c9b79c419f229abd4a5d3714fb6fdbd6a9a619b9b0277dcf44bb8681ab1ef');
+    background-size: cover; /* Make the background image cover the entire page */
+    background-repeat: no-repeat; /* Prevent the background image from repeating */
+    background-attachment: fixed; /* Optional: Fix the background image in place */
+    color: #020202;
+    position: relative; /* Required for the pseudo-element */
+}
+
+body::before {
+    content: "";
+    background-color: rgba(0, 0, 0, 0.5); /* Adjust the opacity (0.5 for semi-transparent) and color */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 110%;
+    z-index: -1; /* Place the overlay behind the content */
+}
+
+
+header {
+    background-color: #242230;
+    color: #fff;
+    padding: 0.2rem;
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
+    margin-bottom: 5vw;
+}
+    
+        
+    
+        .frame-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Creates a responsive grid */
+            gap: 20px; /* Space between grid items */
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+    
+        .frame {
+            background-color: #ecf0f1;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+        }
+    
+        img {
+            max-width: 100%;
+            border-radius: 8px;
+        }
+    
+        p {
+            margin: 10px 0;
+        }
+    </style>
+    
+</head>
+
+<body>
+    <header><h1>Emotion Detection - Session History</h1></header>
+    <div class="frame-container">
+        {% for frame in frames %}
+        <div class="frame">
+            <p>Timestamp: {{ frame.timestamp }}</p>
+            <img src="data:image/jpeg;base64,{{ frame.image }}" alt="Emotion Image">
+            <p>Predicted Emotion: {{ frame.prediction }}</p>
+        </div>
+        {% endfor %}
+    </div>
+    <script>
+        window.addEventListener("load", function() {
+            fetch('/clear_data', {
+                method: 'POST'
+            })
+            .then(response => response.json())
+            .then(data => {
+                if(data.status === "Data cleared") {
+                    console.log("Data cleared successfully");
+                }
+            });
+        });
+        </script>
+</body>
+
+</html>
